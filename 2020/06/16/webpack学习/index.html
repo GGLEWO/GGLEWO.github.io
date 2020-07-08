@@ -123,15 +123,15 @@
 
 
 
-<meta name="description" content="前端开发一枚，不想秃头的麻鸡。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="tags">
-<meta property="og:url" content="http://yoursite.com/tags/index-1.html">
+<meta name="description" content="##1、 简易模板    &#96;    const { resolve } &#x3D; require(‘path’); &#x2F;&#x2F; node 的一个语法，引入路径模块中的 resolve    const HtmlWebPackPlugin &#x3D; require(‘html-webpack-plugin’) &#x2F;&#x2F; 引入下载好的插件    const MiniCssExtractPlugin &#x3D; require(‘m">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack学习">
+<meta property="og:url" content="http://yoursite.com/2020/06/16/webpack%E5%AD%A6%E4%B9%A0/index.html">
 <meta property="og:site_name" content="GuanYM">
-<meta property="og:description" content="前端开发一枚，不想秃头的麻鸡。">
+<meta property="og:description" content="##1、 简易模板    &#96;    const { resolve } &#x3D; require(‘path’); &#x2F;&#x2F; node 的一个语法，引入路径模块中的 resolve    const HtmlWebPackPlugin &#x3D; require(‘html-webpack-plugin’) &#x2F;&#x2F; 引入下载好的插件    const MiniCssExtractPlugin &#x3D; require(‘m">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-06-13T04:12:10.000Z">
-<meta property="article:modified_time" content="2020-06-13T08:11:07.427Z">
+<meta property="article:published_time" content="2020-06-16T13:19:49.814Z">
+<meta property="article:modified_time" content="2020-06-18T15:05:00.986Z">
 <meta property="article:author" content="GuanYm">
 <meta property="article:tag" content="前端">
 <meta property="article:tag" content="javascript">
@@ -179,13 +179,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/index-1.html"/>
+  <link rel="canonical" href="http://yoursite.com/2020/06/16/webpack学习/"/>
 
 
 
 
 
-  <title>tags | GuanYM</title>
+  <title>webpack学习 | GuanYM</title>
   
 
 
@@ -300,40 +300,190 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/16/webpack%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="GuanYm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/img/touxaing.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GuanYM">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">tags</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div class="tag-cloud">
-            <div class="tag-cloud-title">
-                2 tags in total
-            </div>
-            <div class="tag-cloud-tags">
-              <a href="/tags/gulp/" style="font-size: 12px; color: #ccc">gulp</a> <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 12px; color: #ccc">教程</a>
-            </div>
-          </div>
+          <h1 class="post-title" itemprop="name headline">webpack学习</h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-06-16T21:19:49+08:00">
+                2020-06-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <p>##<br>1、 简易模板<br>    `<br>    const { resolve } = require(‘path’); // node 的一个语法，引入路径模块中的 resolve<br>    const HtmlWebPackPlugin = require(‘html-webpack-plugin’) // 引入下载好的插件<br>    const MiniCssExtractPlugin = require(‘mini-css-extract-plugin’) // 需要下载好插件，是用来把js中的样式提取到单独的文件</p>
+<pre><code>module.exports = {  // 暴露出去
+    entry: &apos;.src.index.js&apos; // 入口文件，告诉 webpack 从哪里开始打包
+    output: {
+        filename: &apos;build.js&apos;, // 输出文件，打包生成文件的文件名字
+        path: resolve(__dirname, &apos;build&apos;) // 生成文件的路径，__dirname表示当前目录，&apos;build&apos;表示这个文件下
+    },
+    module: { // 相当于写 loader 的地方，因为 webpack 只能识别 js 和 json ，所以需要loader把其他语言转换为认识的语言（相当于翻译官）
+        relues: [
+            {
+                test: /\.less$/,  // 正则所有 less后缀的文件
+                use: [  // 匹配的文件要使用哪些 loader
+                    &apos;style-loader&apos;,  // 把 js 中的 样式创建 style 标签
+                    &apos;css-loader&apos;,  // 把 css 整合到 js 中
+                    &apos;less-loader&apos; // 把 less 转换为 css
+                ]
+            },
+            { // 处理图片资源,两个包：url-loader 、 file-loader,
+              // 问题: 这样 处理不了 html 文件中的img图片
+                test: /\.(jpg|png|gif)$/,
+                loader: &apos;url-loader&apos;,
+                options: {
+                    // 图片大小少于 8kb， 就会转成 base64
+                    // base64 优点： 减少请求数量（减轻服务器压力）
+                    // 缺点：图片体积会更大（请求速度慢）
+                    limit: 8 * 1024 
+                    // 假如出现问题： [Object Module]
+                    esModule: false
+                }
+            },
+            {
+                test: /\.html$/,
+                // html-loader 专门处理 html 文件中 img 图片（负责引入这个图片，从而能被 url-loader进行处理）
+                loader: &apos;html-loader&apos;
+            }
+        ]
+    },
+    plugins: [
+        new HTMLWebpacPlugin({ // 这个插件会自动引入 打包后的文件，并生成空的html文件
+            template: &apos;./src/index.html&apos; //  把这个文件的 html结构 放到 生成的html 文件中
+        })
+    ],
+    mode: &apos;development&apos;,
+
+    // 开发服务器 devServer ，用来自动化（自动编译，自动打开浏览器，自动刷新）
+    // 启动  devServer 指令：npx webpack-dev-server(需要下载这个包) 注意：全局安装的包 可以作为指令使用，局部安装的要使用 npx
+    devServer: {
+        contentBase: resolve(__dirname, &apos;build&apos;), // 运行项目的目录
+        compress: true, //  启动gzip压缩
+        port: 8080, // 指定端口号
+        open: true
+     }
+}</code></pre><p>`</p>
+
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/06/09/gulp%E5%AD%A6%E4%B9%A0/" rel="next" title="gulp学习">
+                <i class="fa fa-chevron-left"></i> gulp学习
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
