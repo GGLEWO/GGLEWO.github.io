@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="框架,vue," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="转载前言面试竞争力越来越大，是时候撸一波Vue和React源码啦；本文从20个层面来对比Vue和React的源码区别；如果需要了解API的区别，请戳：Vue 开发必须知道的 36 个技巧React 开发必须知道的 34 个技巧">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React 和 Vue 的20个区别">
+<meta property="og:url" content="http://yoursite.com/2020/07/20/React%20%E5%92%8C%20Vue%20%E7%9A%8420%E4%B8%AA%E5%8C%BA%E5%88%AB/index.html">
+<meta property="og:site_name" content="GuanYM">
+<meta property="og:description" content="转载前言面试竞争力越来越大，是时候撸一波Vue和React源码啦；本文从20个层面来对比Vue和React的源码区别；如果需要了解API的区别，请戳：Vue 开发必须知道的 36 个技巧React 开发必须知道的 34 个技巧">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-07-20T03:08:32.000Z">
+<meta property="article:modified_time" content="2020-07-20T03:10:18.439Z">
+<meta property="article:author" content="GuanYm">
+<meta property="article:tag" content="框架">
+<meta property="article:tag" content="vue">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/07/20/React 和 Vue 的20个区别/"/>
+
+
+
+
+
+  <title>React 和 Vue 的20个区别 | GuanYM</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GuanYM</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">热爱生活，向往远方</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/20/React%20%E5%92%8C%20Vue%20%E7%9A%8420%E4%B8%AA%E5%8C%BA%E5%88%AB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="GuanYm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/img/touxaing.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GuanYM">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">React 和 Vue 的20个区别</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-07-20T11:08:32+08:00">
+                2020-07-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="转载"><a href="#转载" class="headerlink" title="转载"></a>转载</h3><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>面试竞争力越来越大，是时候撸一波Vue和React源码啦；<br>本文从20个层面来对比Vue和React的源码区别；<br>如果需要了解API的区别，请戳：<br><a href="https://juejin.im/post/5d9d386fe51d45784d3f8637" target="_blank" rel="noopener">Vue 开发必须知道的 36 个技巧</a><br><a href="https://juejin.im/post/5dcb5a80e51d4520db19b906" target="_blank" rel="noopener">React 开发必须知道的 34 个技巧</a></p>
+<a id="more"></a>
+
+<h1 id="1-Vue和React源码区别"><a href="#1-Vue和React源码区别" class="headerlink" title="1.Vue和React源码区别"></a>1.Vue和React源码区别</h1><h2 id="1-1-Vue源码"><a href="#1-1-Vue源码" class="headerlink" title="1.1 Vue源码"></a>1.1 Vue源码</h2><h3 id="1-1-1-挂载"><a href="#1-1-1-挂载" class="headerlink" title="1.1.1 挂载"></a>1.1.1 挂载</h3><p>初始化$mounted会挂载组件,不存在 render 函数时需要编译(compile);</p>
+<h3 id="1-1-2-compile"><a href="#1-1-2-compile" class="headerlink" title="1.1.2 compile"></a>1.1.2 compile</h3><p>1.compile 分为 parse，optimize 和 generate，最终得到 render 函数；  </p>
+<p>2.parse 调用 parseHtml 方法，方法核心是利用正则解析 template 的指令，class 和 stype，得到 AST；  </p>
+<p>3.optimize 作用标记 static 静态节点，后面 patch,diff会跳过静态节点；  </p>
+<p>4.generate 是将 AST 转化为 render 函数表达式，执行 vm._render 方法将 render 表达式转化为VNode，得到 render 和 staticRenderFns 字符串；  </p>
+<p>5.vm._render 方法调用了 VNode 创建的方法createElement  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; render函数表达式</span><br><span class="line">(function() &#123;</span><br><span class="line">  with(this)&#123;</span><br><span class="line">    return _c(&#39;div&#39;,&#123;   &#x2F;&#x2F;创建一个 div 元素</span><br><span class="line">      attrs:&#123;&quot;id&quot;:&quot;app&quot;&#125;  &#x2F;&#x2F;div 添加属性 id</span><br><span class="line">      &#125;,[</span><br><span class="line">        _m(0),  &#x2F;&#x2F;静态节点 header，此处对应 staticRenderFns 数组索引为 0 的 render function</span><br><span class="line">        _v(&quot; &quot;), &#x2F;&#x2F;空的文本节点</span><br><span class="line">        (message) &#x2F;&#x2F;判断 message 是否存在</span><br><span class="line">         &#x2F;&#x2F;如果存在，创建 p 元素，元素里面有文本，值为 toString(message)</span><br><span class="line">        ?_c(&#39;p&#39;,[_v(&quot;\n    &quot;+_s(message)+&quot;\n  &quot;)])</span><br><span class="line">        &#x2F;&#x2F;如果不存在，创建 p 元素，元素里面有文本，值为 No message.</span><br><span class="line">        :_c(&#39;p&#39;,[_v(&quot;\n    No message.\n  &quot;)])</span><br><span class="line">      ]</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-1-3-依赖收集与监听"><a href="#1-1-3-依赖收集与监听" class="headerlink" title="1.1.3 依赖收集与监听"></a>1.1.3 依赖收集与监听</h3><p>这部分是数据响应式系统<br>1.调用 observer()，作用是遍历对象属性进行双向绑定；  </p>
+<p>2.在 observer 过程中会注册Object.defineProperty的 get 方法进行依赖收集，依赖收集是将Watcher 对象的实例放入 Dep 中；  </p>
+<p>3.Object.defineProperty的 set 会调用Dep 对象的 notify 方法通知它内部所有的 Watcher 对象调用对应的 update()进行视图更新；  </p>
+<p>4.本质是发布者订阅模式的应用</p>
+<h3 id="1-1-4-diff-和-patch"><a href="#1-1-4-diff-和-patch" class="headerlink" title="1.1.4 diff 和 patch"></a>1.1.4 diff 和 patch</h3><p>diff 算法对比差异和调用 update更新视图：<br>1.patch 的 differ 是将同层的树节点进行比较,通过唯一的 key 进行区分，时间复杂度只有 O(n)；  </p>
+<p>2.上面将到 set 被触发会调用 watcher 的 update()修改视图； </p>
+<p>3.update 方法里面调用 patch()得到同级的 VNode 变化;  </p>
+<p>4.update 方法里面调用createElm通过虚拟节点创建真实的 DOM 并插入到它的父节点中；  </p>
+<p>5.createElm实质是遍历虚拟 dom，逆向解析成真实 dom；    </p>
+<h2 id="1-2-React-源码"><a href="#1-2-React-源码" class="headerlink" title="1.2 React 源码"></a>1.2 React 源码</h2><h3 id="1-2-1-React-Component"><a href="#1-2-1-React-Component" class="headerlink" title="1.2.1 React.Component"></a>1.2.1 React.Component</h3><p>1.原型上挂载了setState和forceUpdate方法;<br>2.提供props,context,refs 等属性;<br>3.组件定义通过 extends 关键字继承 Component;  </p>
+<h3 id="1-2-2-挂载"><a href="#1-2-2-挂载" class="headerlink" title="1.2.2 挂载"></a>1.2.2 挂载</h3><p>1.render 方法调用了React.createElement方法(实际是ReactElement方法)；  </p>
+<p>2.ReactDOM.render(component，mountNode)的形式对自定义组件/原生DOM/字符串进行挂载；  </p>
+<p>3.调用了内部的ReactMount.render，进而执行ReactMount._renderSubtreeIntoContainer,就是将子DOM插入容器；  </p>
+<p>4.ReactDOM.render()根据传入不同参数会创建四大类组件，返回一个 VNode；  </p>
+<p>5.四大类组件封装的过程中，调用了mountComponet方法，触发生命周期，解析出 HTML；  </p>
+<h3 id="1-2-3-组件类型和生命周期"><a href="#1-2-3-组件类型和生命周期" class="headerlink" title="1.2.3 组件类型和生命周期"></a>1.2.3 组件类型和生命周期</h3><p>1.ReactEmptyComponent,ReactTextComponent,ReactDOMComponent组件没有触发生命周期;<br>2.ReactCompositeComponent类型调用mountComponent方法,会触发生命周期,处理 state 执行componentWillMount钩子,执行 render,获得 html,执行componentDidMounted  </p>
+<h3 id="1-2-4-data-更新-setState"><a href="#1-2-4-data-更新-setState" class="headerlink" title="1.2.4 data 更新 setState"></a>1.2.4 data 更新 setState</h3><p>细节请见 3.1</p>
+<h3 id="1-2-5-数据绑定"><a href="#1-2-5-数据绑定" class="headerlink" title="1.2.5 数据绑定"></a>1.2.5 数据绑定</h3><p>1.setState 更新 data 后,shouldComponentUpdate为 true会生成 VNode,为 false 会结束;<br>2.VNode会调用 DOM diff,为 true 更新组件;  </p>
+<h2 id="1-3-对比"><a href="#1-3-对比" class="headerlink" title="1.3 对比"></a>1.3 对比</h2><p>React:<br>1.单向数据流;<br>2.setSate 更新data 值后，组件自己处理;<br>3.differ 是首位是除删除外是固定不动的,然后依次遍历对比;  </p>
+<p>Vue:<br>1.v-model 可以实现双向数据流,但只是v-bind:value 和 v-on:input的语法糖;<br>2.通过 this 改变值，会触发 Object.defineProperty的 set，将依赖放入队列，下一个事件循环开始时执行更新时才会进行必要的DOM更新，是外部监听处理更新；<br>3.differcompile 阶段的optimize标记了static 点，可以减少 differ 次数，而且是采用双向遍历方法；</p>
+<h1 id="2-React-和-Vue-渲染过程区别"><a href="#2-React-和-Vue-渲染过程区别" class="headerlink" title="2.React 和 Vue 渲染过程区别"></a>2.React 和 Vue 渲染过程区别</h1><h2 id="2-1-React"><a href="#2-1-React" class="headerlink" title="2.1 React"></a>2.1 React</h2><p>1.生成期(挂载):参照 1.2.1<br>2.更新: 参照1.1.3和 1.1.4<br>3.卸载:销毁挂载的组件</p>
+<h2 id="2-2-Vue"><a href="#2-2-Vue" class="headerlink" title="2.2 Vue"></a>2.2 Vue</h2><p>1.new Vue()初始化后initLifecycle(vm),initEvents(vm),initRender(vm),callHook(vm,beforeCreate),initState(vm),callHook(vm,created);  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">A.initLifecycle, 建立父子组件关系，在当前实例上添加一些属性和生命周期标识。如：children、refs、_isMounted等;  </span><br><span class="line">B.initEvents，用来存放除@hook:生命周期钩子名称&#x3D;&quot;绑定的函数&quot;事件的对象。如：$on、$emit等;  </span><br><span class="line">C.initRender，用于初始化$slots、$attrs、$listeners; </span><br><span class="line">D.initState，是很多选项初始化的汇总，包括：props、methods、data、computed 和 watch 等;  </span><br><span class="line">E.callHook(vm,created)后才挂载实例</span><br></pre></td></tr></table></figure>
+<p>2.compileToFunction:就是将 template 编译成 render 函数;<br>3.watcher: 就是执行1.2.3;<br>4.patch:就是执行 1.2.4  </p>
+<h2 id="3-AST-和-VNode-的异同"><a href="#3-AST-和-VNode-的异同" class="headerlink" title="3.AST 和 VNode 的异同"></a>3.AST 和 VNode 的异同</h2><p>1.都是 JSON 对象；  </p>
+<p>2.AST 是HTML,JS,Java或其他语言的语法的映射对象，VNode 只是 DOM 的映射对象，AST 范围更广；  </p>
+<p>3.AST的每层的element，包含自身节点的信息(tag,attr等)，同时parent，children分别指向其父element和子element，层层嵌套，形成一棵树  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id&#x3D;&quot;app&quot;&gt;</span><br><span class="line">  &lt;ul&gt;</span><br><span class="line">    &lt;li v-for&#x3D;&quot;item in items&quot;&gt;</span><br><span class="line">      itemid:&#123;&#123;item.id&#125;&#125;</span><br><span class="line">    &lt;&#x2F;li&gt;</span><br><span class="line">  &lt;&#x2F;ul&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;转化为 AST 格式为</span><br><span class="line">&#123;</span><br><span class="line">    &quot;type&quot;: 1,</span><br><span class="line">    &quot;tag&quot;: &quot;div&quot;,</span><br><span class="line">    &quot;attrsList&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;name&quot;: &quot;id&quot;,</span><br><span class="line">            &quot;value&quot;: &quot;app&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    &quot;attrsMap&quot;: &#123;</span><br><span class="line">        &quot;id&quot;: &quot;app&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;children&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;type&quot;: 1,</span><br><span class="line">            &quot;tag&quot;: &quot;ul&quot;,</span><br><span class="line">            &quot;attrsList&quot;: [],</span><br><span class="line">            &quot;attrsMap&quot;: &#123;&#125;,</span><br><span class="line">            &quot;parent&quot;: &#123;</span><br><span class="line">                &quot;$ref&quot;: &quot;$&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;children&quot;: [</span><br><span class="line">                &#123;</span><br><span class="line">                    &quot;type&quot;: 1,</span><br><span class="line">                    &quot;tag&quot;: &quot;li&quot;,</span><br><span class="line">                    &#x2F;&#x2F; children省略了很多属性,表示格式即可</span><br><span class="line">                &#125;</span><br><span class="line">            ],</span><br><span class="line">            &quot;plain&quot;: true</span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    &quot;plain&quot;: false,</span><br><span class="line">    &quot;attrs&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;name&quot;: &quot;id&quot;,</span><br><span class="line">            &quot;value&quot;: &quot;\&quot;app\&quot;&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4.vnode就是一系列关键属性如标签名、数据、子节点的集合，可以认为是简化了的dom:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  tag: string | void;</span><br><span class="line">  data: VNodeData | void;</span><br><span class="line">  children: ?Array&lt;VNode&gt;;</span><br><span class="line">  text: string | void;</span><br><span class="line">  elm: Node | void;</span><br><span class="line">  ns: string | void;</span><br><span class="line">  context: Component | void;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>5.VNode 的基本分类:EmptyVNode,TextVNode,ComponentVNNode,ElementVNNode,CloneVNode</p>
+<p>6.创建 VNode</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">方法一:</span><br><span class="line">&#x2F;&#x2F; 利用createDocumentFragment()创建虚拟 dom 片段</span><br><span class="line">&#x2F;&#x2F; 节点对象包含dom所有属性和方法</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; html</span><br><span class="line">&lt;ul id&#x3D;&quot;ul&quot;&gt;&lt;&#x2F;ul&gt;</span><br><span class="line">&#x2F;&#x2F; js</span><br><span class="line">const element  &#x3D; document.getElementById(&#39;ul&#39;);</span><br><span class="line">const fragment &#x3D; document.createDocumentFragment();</span><br><span class="line">const browsers &#x3D; [&#39;Firefox&#39;, &#39;Chrome&#39;, &#39;Opera&#39;, &#39;Safari&#39;, &#39;Internet Explorer&#39;];</span><br><span class="line"></span><br><span class="line">browsers.forEach(function(browser) &#123;</span><br><span class="line">    const li &#x3D; document.createElement(&#39;li&#39;);</span><br><span class="line">    li.textContent &#x3D; browser;</span><br><span class="line">    fragment.appendChild(li);　　&#x2F;&#x2F; 此处往文档片段插入子节点，不会引起回流 （相当于打包操作）</span><br><span class="line">&#125;);</span><br><span class="line">console.log(fragment)</span><br><span class="line">element.appendChild(fragment);　　&#x2F;&#x2F; 将打包好的文档片段插入ul节点，只做了一次操作,时间快,性能好</span><br><span class="line"></span><br><span class="line">方法二:</span><br><span class="line">&#x2F;&#x2F; 用 JS 对象来模拟 VNode</span><br><span class="line">function Element (tagName, props, children) &#123;</span><br><span class="line">  console.log(&#39;this&#39;,this)</span><br><span class="line">  this.tagName &#x3D; tagName</span><br><span class="line">  this.props &#x3D; props</span><br><span class="line">  this.children &#x3D; children</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let ElementO &#x3D;new Element(&#39;ul&#39;, &#123;id: &#39;list&#39;&#125;, [</span><br><span class="line">  new Element(&#39;li&#39;, &#123;class: &#39;item&#39;&#125;, [&#39;Item 1&#39;]),</span><br><span class="line">  new Element(&#39;li&#39;, &#123;class: &#39;item&#39;&#125;, [&#39;Item 2&#39;]),</span><br><span class="line">  new Element(&#39;li&#39;, &#123;class: &#39;item&#39;&#125;, [&#39;Item 3&#39;])</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 利用 render 渲染到页面</span><br><span class="line">Element.prototype.render &#x3D; function () &#123;</span><br><span class="line">  const el &#x3D; document.createElement(this.tagName) &#x2F;&#x2F; 根据tagName构建</span><br><span class="line">  const props &#x3D; this.props</span><br><span class="line"></span><br><span class="line">  for (const propName in props) &#123; &#x2F;&#x2F; 设置节点的DOM属性</span><br><span class="line">    const propValue &#x3D; props[propName]</span><br><span class="line">    el.setAttribute(propName, propValue)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  const children &#x3D; this.children || []</span><br><span class="line"></span><br><span class="line">  children.forEach(function (child) &#123;</span><br><span class="line">    const childEl &#x3D; (child instanceof Element)</span><br><span class="line">      ? child.render() &#x2F;&#x2F; 如果子节点也是虚拟DOM，递归构建DOM节点</span><br><span class="line">      : document.createTextNode(child) &#x2F;&#x2F; 如果字符串，只构建文本节点</span><br><span class="line">    el.appendChild(childEl)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  return el</span><br><span class="line">&#125;</span><br><span class="line">console.log(&#39;ElementO&#39;,ElementO)</span><br><span class="line">var ulRoot &#x3D; ElementO.render()</span><br><span class="line">console.log(&#39;ulRoot&#39;,ulRoot)</span><br><span class="line">document.body.appendChild(ulRoot)</span><br></pre></td></tr></table></figure>
+
+<h1 id="4-React-和Vue-的-differ-算法区"><a href="#4-React-和Vue-的-differ-算法区" class="headerlink" title="4.React 和Vue 的 differ 算法区"></a>4.React 和Vue 的 differ 算法区</h1><h2 id="4-1-React"><a href="#4-1-React" class="headerlink" title="4.1 React"></a>4.1 React</h2><p>1.Virtual DOM 中的首个节点不执行移动操作（除非它要被移除），以该节点为原点，其它节点都去寻找自己的新位置; 一句话就是首位是老大,不移动; </p>
+<p>2.在 Virtual DOM 的顺序中，每一个节点与前一个节点的先后顺序与在 Real DOM 中的顺序进行比较，如果顺序相同，则不必移动，否则就移动到前一个节点的前面或后面;  </p>
+<p>3.tree diff:只会同级比较,如果是跨级的移动,会先删除节点 A,再创建对应的 A;将 O(n3) 复杂度的问题转换成 O(n) 复杂度;  </p>
+<p>4.component diff:<br>  根据batchingStrategy.isBatchingUpdates值是否为 true;<br>  如果true 同一类型组件,按照 tree differ 对比;<br>  如果 false将组件放入 dirtyComponent,下面子节点全部替换,具体逻辑看 3.1 setSate</p>
+<p>5.element differ:<br>  tree differ 下面有三种节点操作:INSERT_MARKUP（插入）、MOVE_EXISTING（移动）和 REMOVE_NODE（删除）<br>  <a href="https://segmentfault.com/a/1190000016723305" target="_blank" rel="noopener">请戳</a></p>
+<p>6.代码实现 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line">_updateChildren: function(nextNestedChildrenElements, transaction, context) &#123;</span><br><span class="line">   var prevChildren &#x3D; this._renderedChildren</span><br><span class="line">  var removedNodes &#x3D; &#123;&#125;</span><br><span class="line">  var mountImages &#x3D; []</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 获取新的子元素数组</span><br><span class="line">  var nextChildren &#x3D; this._reconcilerUpdateChildren(</span><br><span class="line">    prevChildren,</span><br><span class="line">    nextNestedChildrenElements,</span><br><span class="line">    mountImages,</span><br><span class="line">    removedNodes,</span><br><span class="line">    transaction,</span><br><span class="line">    context</span><br><span class="line">  )</span><br><span class="line"></span><br><span class="line">  if (!nextChildren &amp;&amp; !prevChildren) &#123;</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  var updates &#x3D; null</span><br><span class="line">  var name</span><br><span class="line">  var nextIndex &#x3D; 0</span><br><span class="line">  var lastIndex &#x3D; 0</span><br><span class="line">  var nextMountIndex &#x3D; 0</span><br><span class="line">  var lastPlacedNode &#x3D; null</span><br><span class="line"></span><br><span class="line">  for (name in nextChildren) &#123;</span><br><span class="line">    if (!nextChildren.hasOwnProperty(name)) &#123;</span><br><span class="line">      continue</span><br><span class="line">    &#125;</span><br><span class="line">    var prevChild &#x3D; prevChildren &amp;&amp; prevChildren[name]</span><br><span class="line">    var nextChild &#x3D; nextChildren[name]</span><br><span class="line">    if (prevChild &#x3D;&#x3D;&#x3D; nextChild) &#123;</span><br><span class="line">      &#x2F;&#x2F; 同一个引用，说明是使用的同一个component,所以我们需要做移动的操作</span><br><span class="line">      &#x2F;&#x2F; 移动已有的子节点</span><br><span class="line">      &#x2F;&#x2F; NOTICE：这里根据nextIndex, lastIndex决定是否移动</span><br><span class="line">      updates &#x3D; enqueue(</span><br><span class="line">        updates,</span><br><span class="line">        this.moveChild(prevChild, lastPlacedNode, nextIndex, lastIndex)</span><br><span class="line">      )</span><br><span class="line"></span><br><span class="line">      &#x2F;&#x2F; 更新lastIndex</span><br><span class="line">      lastIndex &#x3D; Math.max(prevChild._mountIndex, lastIndex)</span><br><span class="line">      &#x2F;&#x2F; 更新component的.mountIndex属性</span><br><span class="line">      prevChild._mountIndex &#x3D; nextIndex</span><br><span class="line"></span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      if (prevChild) &#123;</span><br><span class="line">        &#x2F;&#x2F; 更新lastIndex</span><br><span class="line">        lastIndex &#x3D; Math.max(prevChild._mountIndex, lastIndex)</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      &#x2F;&#x2F; 添加新的子节点在指定的位置上</span><br><span class="line">      updates &#x3D; enqueue(</span><br><span class="line">        updates,</span><br><span class="line">        this._mountChildAtIndex(</span><br><span class="line">          nextChild,</span><br><span class="line">          mountImages[nextMountIndex],</span><br><span class="line">          lastPlacedNode,</span><br><span class="line">          nextIndex,</span><br><span class="line">          transaction,</span><br><span class="line">          context</span><br><span class="line">        )</span><br><span class="line">      )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      nextMountIndex++</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 更新nextIndex</span><br><span class="line">    nextIndex++</span><br><span class="line">    lastPlacedNode &#x3D; ReactReconciler.getHostNode(nextChild)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 移除掉不存在的旧子节点，和旧子节点和新子节点不同的旧子节点</span><br><span class="line">  for (name in removedNodes) &#123;</span><br><span class="line">    if (removedNodes.hasOwnProperty(name)) &#123;</span><br><span class="line">      updates &#x3D; enqueue(</span><br><span class="line">        updates,</span><br><span class="line">        this._unmountChild(prevChildren[name], removedNodes[name])</span><br><span class="line">      )</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-2-Vue"><a href="#4-2-Vue" class="headerlink" title="4.2 Vue"></a>4.2 Vue</h2><p>1.自主研发了一套Virtual DOM，是借鉴开源库snabbdom，<br><a href="https://github.com/snabbdom/snabbdom" target="_blank" rel="noopener">snabbdom地址</a>  </p>
+<p>2.也是同级比较，因为在 compile 阶段的optimize标记了static 点，可以减少 differ 次数；  </p>
+<p>3.Vue 的这个 DOM Diff 过程就是一个查找排序的过程，遍历 Virtual DOM 的节点，在 Real DOM 中找到对应的节点，并移动到新的位置上。不过这套算法使用了双向遍历的方式，加速了遍历的速度，<a href="http://www.imooc.com/article/details/id/295545" target="_blank" rel="noopener">更多请戳</a>；  </p>
+<p>4.代码实现:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">updateChildren (parentElm, oldCh, newCh) &#123;</span><br><span class="line">    let oldStartIdx &#x3D; 0, newStartIdx &#x3D; 0</span><br><span class="line">  let oldEndIdx &#x3D; oldCh.length - 1</span><br><span class="line">  let oldStartVnode &#x3D; oldCh[0]</span><br><span class="line">  let oldEndVnode &#x3D; oldCh[oldEndIdx]</span><br><span class="line">  let newEndIdx &#x3D; newCh.length - 1</span><br><span class="line">  let newStartVnode &#x3D; newCh[0]</span><br><span class="line">  let newEndVnode &#x3D; newCh[newEndIdx]</span><br><span class="line">  let oldKeyToIdx</span><br><span class="line">  let idxInOld</span><br><span class="line">  let elmToMove</span><br><span class="line">  let before</span><br><span class="line">  while (oldStartIdx &lt;&#x3D; oldEndIdx &amp;&amp; newStartIdx &lt;&#x3D; newEndIdx) &#123;</span><br><span class="line">    if (oldStartVnode &#x3D;&#x3D; null) &#123;   &#x2F;&#x2F;对于vnode.key的比较，会把oldVnode &#x3D; null</span><br><span class="line">      oldStartVnode &#x3D; oldCh[++oldStartIdx]</span><br><span class="line">    &#125;else if (oldEndVnode &#x3D;&#x3D; null) &#123;</span><br><span class="line">      oldEndVnode &#x3D; oldCh[--oldEndIdx]</span><br><span class="line">    &#125;else if (newStartVnode &#x3D;&#x3D; null) &#123;</span><br><span class="line">      newStartVnode &#x3D; newCh[++newStartIdx]</span><br><span class="line">    &#125;else if (newEndVnode &#x3D;&#x3D; null) &#123;</span><br><span class="line">      newEndVnode &#x3D; newCh[--newEndIdx]</span><br><span class="line">    &#125;else if (sameVnode(oldStartVnode, newStartVnode)) &#123;</span><br><span class="line">      patchVnode(oldStartVnode, newStartVnode)</span><br><span class="line">      oldStartVnode &#x3D; oldCh[++oldStartIdx]</span><br><span class="line">      newStartVnode &#x3D; newCh[++newStartIdx]</span><br><span class="line">    &#125;else if (sameVnode(oldEndVnode, newEndVnode)) &#123;</span><br><span class="line">      patchVnode(oldEndVnode, newEndVnode)</span><br><span class="line">      oldEndVnode &#x3D; oldCh[--oldEndIdx]</span><br><span class="line">      newEndVnode &#x3D; newCh[--newEndIdx]</span><br><span class="line">    &#125;else if (sameVnode(oldStartVnode, newEndVnode)) &#123;</span><br><span class="line">      patchVnode(oldStartVnode, newEndVnode)</span><br><span class="line">      api.insertBefore(parentElm, oldStartVnode.el, api.nextSibling(oldEndVnode.el))</span><br><span class="line">      oldStartVnode &#x3D; oldCh[++oldStartIdx]</span><br><span class="line">      newEndVnode &#x3D; newCh[--newEndIdx]</span><br><span class="line">    &#125;else if (sameVnode(oldEndVnode, newStartVnode)) &#123;</span><br><span class="line">      patchVnode(oldEndVnode, newStartVnode)</span><br><span class="line">      api.insertBefore(parentElm, oldEndVnode.el, oldStartVnode.el)</span><br><span class="line">      oldEndVnode &#x3D; oldCh[--oldEndIdx]</span><br><span class="line">      newStartVnode &#x3D; newCh[++newStartIdx]</span><br><span class="line">    &#125;else &#123;</span><br><span class="line">      &#x2F;&#x2F; 使用key时的比较</span><br><span class="line">      if (oldKeyToIdx &#x3D;&#x3D;&#x3D; undefined) &#123;</span><br><span class="line">        oldKeyToIdx &#x3D; createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx) &#x2F;&#x2F; 有key生成index表</span><br><span class="line">      &#125;</span><br><span class="line">      idxInOld &#x3D; oldKeyToIdx[newStartVnode.key]</span><br><span class="line">      if (!idxInOld) &#123;</span><br><span class="line">        api.insertBefore(parentElm, createEle(newStartVnode).el, oldStartVnode.el)</span><br><span class="line">        newStartVnode &#x3D; newCh[++newStartIdx]</span><br><span class="line">      &#125;</span><br><span class="line">      else &#123;</span><br><span class="line">        elmToMove &#x3D; oldCh[idxInOld]</span><br><span class="line">        if (elmToMove.sel !&#x3D;&#x3D; newStartVnode.sel) &#123;</span><br><span class="line">          api.insertBefore(parentElm, createEle(newStartVnode).el, oldStartVnode.el)</span><br><span class="line">        &#125;else &#123;</span><br><span class="line">          patchVnode(elmToMove, newStartVnode)</span><br><span class="line">          oldCh[idxInOld] &#x3D; null</span><br><span class="line">          api.insertBefore(parentElm, elmToMove.el, oldStartVnode.el)</span><br><span class="line">        &#125;</span><br><span class="line">        newStartVnode &#x3D; newCh[++newStartIdx]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  if (oldStartIdx &gt; oldEndIdx) &#123;</span><br><span class="line">    before &#x3D; newCh[newEndIdx + 1] &#x3D;&#x3D; null ? null : newCh[newEndIdx + 1].el</span><br><span class="line">    addVnodes(parentElm, before, newCh, newStartIdx, newEndIdx)</span><br><span class="line">  &#125;else if (newStartIdx &gt; newEndIdx) &#123;</span><br><span class="line">    removeVnodes(parentElm, oldCh, oldStartIdx, oldEndIdx)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-3-对比"><a href="#4-3-对比" class="headerlink" title="4.3 对比"></a>4.3 对比</h2><p>相同点:<br>都是同层 differ,复杂度都为 O(n); </p>
+<p>不同点:<br>1.React 首位是除删除外是固定不动的,然后依次遍历对比;<br>2.Vue 的compile 阶段的optimize标记了static 点,可以减少 differ 次数,而且是采用双向遍历方法;  </p>
+<h1 id="5-React-的-setState和-Vue-改变值的区别"><a href="#5-React-的-setState和-Vue-改变值的区别" class="headerlink" title="5.React 的 setState和 Vue 改变值的区别"></a>5.React 的 setState和 Vue 改变值的区别</h1><h2 id="5-1-setState"><a href="#5-1-setState" class="headerlink" title="5.1 setState"></a>5.1 setState</h2><p>1.setState 通过一个队列机制来实现 state 更新，当执行 setState() 时，会将需要更新的 state 浅合并后,根据变量 isBatchingUpdates(默认为 false)判断是直接更新还是放入状态队列；</p>
+<p>2.通过js的事件绑定程序 addEventListener 和使用setTimeout/setInterval 等 React 无法掌控的 API情况下isBatchingUpdates 为 false，同步更新。除了这几种情况外batchedUpdates函数将isBatchingUpdates修改为 true；</p>
+<p>3.放入队列的不会立即更新 state，队列机制可以高效的批量更新 state。而如果不通过setState，直接修改this.state 的值，则不会放入状态队列;</p>
+<p>4.setState 依次直接设置 state 值会被合并，但是传入 function 不会被合并；<br>让setState接受一个函数的API的设计是相当棒的！不仅符合函数式编程的思想，让开发者写出没有副作用的函数，而且我们并不去修改组件状态，只是把要改变的状态和结果返回给React，维护状态的活完全交给React去做。正是把流程的控制权交给了React，所以React才能协调多个setState调用的关系</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 情况一</span><br><span class="line">state&#x3D;&#123;</span><br><span class="line">  count:0</span><br><span class="line">&#125;</span><br><span class="line">handleClick() &#123;</span><br><span class="line">  this.setState(&#123;</span><br><span class="line">    count: this.state.count + 1</span><br><span class="line">  &#125;)</span><br><span class="line">  this.setState(&#123;</span><br><span class="line">    count: this.state.count + 1</span><br><span class="line">  &#125;)</span><br><span class="line">  this.setState(&#123;</span><br><span class="line">    count: this.state.count + 1</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; count 值依旧为1</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 情况二</span><br><span class="line">increment(state, props) &#123;</span><br><span class="line">  return &#123;</span><br><span class="line">    count: state.count + 1</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">handleClick() &#123;</span><br><span class="line">  this.setState(this.increment)</span><br><span class="line">  this.setState(this.increment)</span><br><span class="line">  this.setState(this.increment)</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; count 值为 3</span><br></pre></td></tr></table></figure>
+<p>5.更新后执行四个钩子:shouleComponentUpdate,componentWillUpdate,render,componentDidUpdate</p>
+<h2 id="5-2-Vue-的-this-改变"><a href="#5-2-Vue-的-this-改变" class="headerlink" title="5.2 Vue 的 this 改变"></a>5.2 Vue 的 this 改变</h2><p>1.vue 自身维护 一个 更新队列，当你设置 this.a = ‘new value’，DOM 并不会马上更新；  </p>
+<p>2.在更新 DOM 时是异步执行的。只要侦听到数据变化，Vue 将开启一个队列，并缓冲在同一事件循环中发生的所有数据变更；  </p>
+<p>3.如果同一个 watcher 被多次触发，只会被推入到队列中一次；</p>
+<p>4.也就是下一个事件循环开始时执行更新时才会进行必要的DOM更新和去重；  </p>
+<p>5.所以 for 循环 10000次 this.a = i vue只会更新一次，而不会更新10000次;</p>
+<p>6.data 变化后如果 computed 或 watch 监听则会执行;</p>
+<h1 id="6-Vue的v-for-或-React-的map-中为什么不要用-index作为-key"><a href="#6-Vue的v-for-或-React-的map-中为什么不要用-index作为-key" class="headerlink" title="6. Vue的v-for 或  React 的map 中为什么不要用 index作为 key"></a>6. Vue的v-for 或  React 的map 中为什么不要用 index作为 key</h1><h2 id="6-1-为什么要加-key"><a href="#6-1-为什么要加-key" class="headerlink" title="6.1 为什么要加 key"></a>6.1 为什么要加 key</h2><h3 id="6-1-1-React"><a href="#6-1-1-React" class="headerlink" title="6.1.1 React"></a>6.1.1 React</h3><p>1.上面的 5.1 讲到 React 的 differ 中 element differ 有三种节点操作；  </p>
+<p>2.场景一不加 key:<br>  新老集合进行 diff 差异化对比，发现 B != A，则创建并插入 B 至新集合，删除老集合 A；以此类推，创建并插入 A、D 和 C，删除 B、C 和 D；<br>  都是相同的节点，但由于位置发生变化，导致需要进行繁杂低效的删除、创建操作，其实只要对这些节点进行位置移动即可；    </p>
+<p>3.场景二加 key:<br>  新建：从新集合中取得 E，判断老集合中不存在相同节点 E，则创建新节点 ElastIndex不做处理E的位置更新为新集合中的位置，nextIndex++；<br>  删除：当完成新集合中所有节点 diff 时，最后还需要对老集合进行循环遍历，判断是否存在新集合中没有但老集合中仍存在的节点，发现存在这样的节点 D，因此删除节点 D；  </p>
+<p>4.总结:<br>  显然加了 key 后操作步骤要少很多,性能更好；<br>  但是都会存在一个问题，上面场景二只需要移动首位，位置就可对应，但是由于首位是老大不能动，所以应该尽量减少将最后一个节点移动到首位，<a href="https://juejin.im/post/5a31dda3f265da43052ea207" target="_blank" rel="noopener">更多请戳</a>。  </p>
+<h3 id="6-1-2-Vue"><a href="#6-1-2-Vue" class="headerlink" title="6.1.2 Vue"></a>6.1.2 Vue</h3><p>Vue 不加 key 场景分析:<br>1.场景一不加 key:<br>也会将使用了双向遍历的方式查找,发现 A,B,C,D都不等,先删除再创建；  </p>
+<p>2.场景二加 key:双向遍历的方式查找只需要创建E，删除D，改变 B、C、A的位置</p>
+<h3 id="6-2-为什么-key-不能为-index"><a href="#6-2-为什么-key-不能为-index" class="headerlink" title="6.2 为什么 key 不能为 index"></a>6.2 为什么 key 不能为 index</h3><p>这个问题分为两个方面:<br>1.如果列表是纯静态展示，不会 CRUD，这样用 index 作为 key 没得啥问题；  </p>
+<p>2.如果不是  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const list &#x3D; [1,2,3,4];</span><br><span class="line">&#x2F;&#x2F; list 删除 4 不会有问题,但是如果删除了非 4 就会有问题</span><br><span class="line">&#x2F;&#x2F; 如果删除 2</span><br><span class="line">const listN&#x3D; [1,3,4]</span><br><span class="line">&#x2F;&#x2F; 这样index对应的值就变化了,整个 list 会重新渲染</span><br></pre></td></tr></table></figure>
+
+<p>3.所以 list 最好不要用 index 作为 key  </p>
+<h2 id="7-Redux和-Vuex-设计思想"><a href="#7-Redux和-Vuex-设计思想" class="headerlink" title="7. Redux和 Vuex 设计思想"></a>7. Redux和 Vuex 设计思想</h2><h2 id="7-1-Redux"><a href="#7-1-Redux" class="headerlink" title="7.1 Redux"></a>7.1 Redux</h2><p>API:<br>1.Redux则是一个纯粹的状态管理系统，React利用React-Redux将它与React框架结合起来；  </p>
+<p>2.只有一个用createStore方法创建一个 store；  </p>
+<p>3.action接收 view 发出的通知，告诉 Store State 要改变，有一个 type 属性；  </p>
+<p>4.reducer:纯函数来处理事件，纯函数指一个函数的返回结果只依赖于它的参数，并且在执行过程里面没有副作用,得到一个新的 state； </p>
+<p>源码组成:  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1.createStore 创建仓库，接受reducer作为参数  </span><br><span class="line">2.bindActionCreator 绑定store.dispatch和action 的关系  </span><br><span class="line">3.combineReducers 合并多个reducers  </span><br><span class="line">4.applyMiddleware 洋葱模型的中间件,介于dispatch和action之间，重写dispatch</span><br><span class="line">5.compose 整合多个中间件</span><br><span class="line">6.单一数据流;state 是可读的,必须通过 action 改变;reducer设计成纯函数;</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-2-Vuex"><a href="#7-2-Vuex" class="headerlink" title="7.2 Vuex"></a>7.2 Vuex</h2><p>1.Vuex是吸收了Redux的经验，放弃了一些特性并做了一些优化，代价就是VUEX只能和VUE配合；  </p>
+<p>2.store:通过 new Vuex.store创建 store，辅助函数mapState；  </p>
+<p>3.getters:获取state，有辅助函数 mapGetters；  </p>
+<p>4.action:异步改变 state，像ajax，辅助函数mapActions；  </p>
+<p>5.mutation:同步改变 state,辅助函数mapMutations；  </p>
+<h2 id="7-3-对比"><a href="#7-3-对比" class="headerlink" title="7.3 对比"></a>7.3 对比</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.Redux： view——&gt;actions——&gt;reducer——&gt;state变化——&gt;view变化（同步异步一样）</span><br><span class="line">2.Vuex： view——&gt;commit——&gt;mutations——&gt;state变化——&gt;view变化（同步操作） </span><br><span class="line">  view——&gt;dispatch——&gt;actions——&gt;mutations——&gt;state变化——&gt;view变化（异步操作）</span><br></pre></td></tr></table></figure>
+
+<h1 id="8-redux-为什么要把-reducer-设计成纯函数"><a href="#8-redux-为什么要把-reducer-设计成纯函数" class="headerlink" title="8.redux 为什么要把 reducer 设计成纯函数"></a>8.redux 为什么要把 reducer 设计成纯函数</h1><p>1.纯函数概念:一个函数的返回结果只依赖于它的参数(外面的变量不会改变自己)，并且在执行过程里面没有副作用(自己不会改变外面的变量)；  </p>
+<p>2.主要就是为了减小副作用，避免影响 state 值，造成错误的渲染；  </p>
+<p>3.把reducer设计成纯函数，便于调试追踪改变记录；  </p>
+<h1 id="9-Vuex的mutation和Redux的reducer中为什么不能做异步操作"><a href="#9-Vuex的mutation和Redux的reducer中为什么不能做异步操作" class="headerlink" title="9.Vuex的mutation和Redux的reducer中为什么不能做异步操作"></a>9.Vuex的mutation和Redux的reducer中为什么不能做异步操作</h1><p>1.在 vuex 里面 actions 只是一个架构性的概念，并不是必须的，说到底只是一个函数，你在里面想干嘛都可以，只要最后触发 mutation 就行；  </p>
+<p>2.vuex 真正限制你的只有 mutation 必须是同步的这一点（在 redux 里面就好像 reducer 必须同步返回下一个状态一样）；  </p>
+<p>3.每一个 mutation 执行完成后都可以对应到一个新的状态（和 reducer 一样），这样 devtools 就可以打个 snapshot 存下来，然后就可以随便 time-travel 了。如果你开着 devtool 调用一个异步的 action，你可以清楚地看到它所调用的 mutation 是何时被记录下来的，并且可以立刻查看它们对应的状态；   </p>
+<p>4.其实就是框架是这么设计的,便于调试追踪改变记录</p>
+<h1 id="10-双向绑定和-vuex-是否冲突"><a href="#10-双向绑定和-vuex-是否冲突" class="headerlink" title="10.双向绑定和 vuex 是否冲突"></a>10.双向绑定和 vuex 是否冲突</h1><p>1.在严格模式中使用Vuex，当用户输入时，v-model会试图直接修改属性值，但这个修改不是在mutation中修改的，所以会抛出一个错误；  </p>
+<p>2.当需要在组件中使用vuex中的state时，有2种解决方案：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">在input中绑定value(vuex中的state)，然后监听input的change或者input事件，在事件回调中调用mutation修改state的值;  </span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 双向绑定计算属性</span><br><span class="line">&lt;input v-model&#x3D;&quot;message&quot;&gt;</span><br><span class="line"></span><br><span class="line">computed: &#123;</span><br><span class="line">  message: &#123;</span><br><span class="line">    get () &#123;</span><br><span class="line">      return this.$store.state.obj.message</span><br><span class="line">    &#125;,</span><br><span class="line">    set (value) &#123;</span><br><span class="line">      this.$store.commit(&#39;updateMessage&#39;, value)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="11-Vue的nextTick原理"><a href="#11-Vue的nextTick原理" class="headerlink" title="11. Vue的nextTick原理"></a>11. Vue的nextTick原理</h1><h2 id="11-1-使用场景"><a href="#11-1-使用场景" class="headerlink" title="11.1 使用场景"></a>11.1 使用场景</h2><p>什么时候会用到?<br>nextTick的使用原则主要就是解决单一事件更新数据后立即操作dom的场景。</p>
+<h2 id="11-2-原理"><a href="#11-2-原理" class="headerlink" title="11.2 原理"></a>11.2 原理</h2><p>1.vue 用异步队列的方式来控制 DOM 更新和 nextTick 回调先后执行；  </p>
+<p>2.microtask 因为其高优先级特性，能确保队列中的微任务在一次事件循环前被执行完毕；  </p>
+<p>3.考虑兼容问题，vue 做了 microtask 向 macrotask 的降级方案；  </p>
+<p>4.代码实现:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const simpleNextTick &#x3D; function queueNextTick (cb) &#123;   </span><br><span class="line">    return Promise.resolve().then(() &#x3D;&gt; &#123;</span><br><span class="line">      cb()</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">simpleNextTick(() &#x3D;&gt; &#123;</span><br><span class="line">  console.log(this.$refs.test.innerText)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h1 id="13-Vue-的data-必须是函数而-React-的-state-是对象"><a href="#13-Vue-的data-必须是函数而-React-的-state-是对象" class="headerlink" title="13. Vue 的data 必须是函数而 React 的 state 是对象"></a>13. Vue 的data 必须是函数而 React 的 state 是对象</h1><h2 id="13-1-Vue-的-data-必须是函数"><a href="#13-1-Vue-的-data-必须是函数" class="headerlink" title="13.1 Vue 的 data 必须是函数"></a>13.1 Vue 的 data 必须是函数</h2><p>对象是引用类型，内存是存贮引用地址，那么子组件中的 data 属性值会互相污染，产生副作用；<br>如果是函数，函数的{}构成作用域，每个实例相互独立，不会相互影响；  </p>
+<h2 id="13-2-React-的-state-是对象"><a href="#13-2-React-的-state-是对象" class="headerlink" title="13.2 React 的 state 是对象"></a>13.2 React 的 state 是对象</h2><p>因为 state 是定义在函数里面,作用域已经独立</p>
+<h1 id="14-Vue-的合并策略"><a href="#14-Vue-的合并策略" class="headerlink" title="14.Vue 的合并策略"></a>14.Vue 的合并策略</h1><p>1.生命周期钩子:合并为数组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function mergeHook (</span><br><span class="line">  parentVal,</span><br><span class="line">  childVal </span><br><span class="line">) &#123;</span><br><span class="line">  return childVal</span><br><span class="line">    ? parentVal &#x2F;&#x2F; 如果 childVal存在</span><br><span class="line">      ? parentVal.concat(childVal) &#x2F;&#x2F; 如果parentVal存在，直接合并</span><br><span class="line">      : Array.isArray(childVal) &#x2F;&#x2F; 如果parentVal不存在</span><br><span class="line">        ? childVal  &#x2F;&#x2F; 如果chilidVal是数组，直接返回</span><br><span class="line">        : [childVal] &#x2F;&#x2F; 包装成一个数组返回</span><br><span class="line">    : parentVal  &#x2F;&#x2F; 如果childVal 不存在 直接返回parentVal </span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; strats中添加属性，属性名为生命周期各个钩子</span><br><span class="line">config._lifecycleHooks.forEach(function (hook) &#123;</span><br><span class="line">  strats[hook] &#x3D; mergeHook &#x2F;&#x2F; 设置每一个钩子函数的合并策略</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>2.watch：合并为数组，执行有先后顺序；  </p>
+<p>3.assets（components、filters、directives）：合并为原型链式结构,合并的策略就是返回一个合并后的新对象，新对象的自有属性全部来自 childVal， 但是通过原型链委托在了 parentVal 上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function mergeAssets (parentVal, childVal) &#123; &#x2F;&#x2F; parentVal: Object childVal: Object</span><br><span class="line">  var res &#x3D; Object.create(parentVal || null) &#x2F;&#x2F; 原型委托</span><br><span class="line">  return childVal</span><br><span class="line">    ? extend(res, childVal)</span><br><span class="line">    : res</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">config._assetTypes.forEach(function (type) &#123;</span><br><span class="line">  strats[type + &#39;s&#39;] &#x3D; mergeAssets</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>4.data为function，需要合并执行后的结果，就是执行 parentVal 和 childVal 的函数，然后再合并函数返回的对象；  </p>
+<p>5.自定义合并策略：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Vue.config.optionMergeStrategies.watch &#x3D; function (toVal, fromVal) &#123;</span><br><span class="line">  &#x2F;&#x2F; return mergedVal</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="14-Vue-router-的路由模式"><a href="#14-Vue-router-的路由模式" class="headerlink" title="14.Vue-router 的路由模式"></a>14.Vue-router 的路由模式</h1><p>1.三种：”hash” | “history” | “abstract”；  </p>
+<p>2.hash(默认),history 是浏览器环境，abstract是 node 环境；  </p>
+<p>3.hash: 使用 URL hash 值来作路由，是利用哈希值实现push、replace、go 等方法；  </p>
+<p>4.history:依赖 HTML5 History API新增的 pushState() 和 replaceState()，需要服务器配置；  </p>
+<p>5.abstract:如果发现没有浏览器的 API，路由会自动强制进入这个模式。    </p>
+<h1 id="15-Vue-的事件机制"><a href="#15-Vue-的事件机制" class="headerlink" title="15.Vue 的事件机制"></a>15.Vue 的事件机制</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">class Vue &#123;  </span><br><span class="line">  constructor() &#123;    </span><br><span class="line">    &#x2F;&#x2F;  事件通道调度中心    </span><br><span class="line">    this._events &#x3D; Object.create(null);  </span><br><span class="line">  &#125;  </span><br><span class="line">  $on(event, fn) &#123;    </span><br><span class="line">    if (Array.isArray(event)) &#123;      </span><br><span class="line">      event.map(item &#x3D;&gt; &#123;        </span><br><span class="line">        this.$on(item, fn);      </span><br><span class="line">    &#125;);    </span><br><span class="line">  &#125; else &#123;      </span><br><span class="line">    (this._events[event] || (this._events[event] &#x3D; [])).push(fn);    &#125;    </span><br><span class="line">    return this; </span><br><span class="line"> &#125;  </span><br><span class="line">$once(event, fn) &#123;    </span><br><span class="line">  function on() &#123;      </span><br><span class="line">    this.$off(event, on);      </span><br><span class="line">    fn.apply(this, arguments);    </span><br><span class="line">    &#125;    </span><br><span class="line">    on.fn &#x3D; fn;    </span><br><span class="line">    this.$on(event, on);    </span><br><span class="line">    return this;  </span><br><span class="line">&#125;  </span><br><span class="line">$off(event, fn) &#123;    </span><br><span class="line">  if (!arguments.length) &#123;      </span><br><span class="line">    this._events &#x3D; Object.create(null);      </span><br><span class="line">    return this;    </span><br><span class="line">  &#125;    </span><br><span class="line">  if (Array.isArray(event)) &#123;      </span><br><span class="line">    event.map(item &#x3D;&gt; &#123;        </span><br><span class="line">      this.$off(item, fn);      </span><br><span class="line">  &#125;);      </span><br><span class="line">  return this;    </span><br><span class="line">  &#125;    </span><br><span class="line">const cbs &#x3D; this._events[event];    </span><br><span class="line">if (!cbs) &#123;      </span><br><span class="line">  return this;</span><br><span class="line">&#125;    </span><br><span class="line">if (!fn) &#123;      </span><br><span class="line">  this._events[event] &#x3D; null;</span><br><span class="line">  return this;    </span><br><span class="line">&#125;    </span><br><span class="line">let cb;    </span><br><span class="line">let i &#x3D; cbs.length;    </span><br><span class="line">while (i--) &#123;      </span><br><span class="line">  cb &#x3D; cbs[i];      </span><br><span class="line">  if (cb &#x3D;&#x3D;&#x3D; fn || cb.fn &#x3D;&#x3D;&#x3D; fn) &#123;        </span><br><span class="line">    cbs.splice(i, 1);        </span><br><span class="line">    break;      </span><br><span class="line">&#125;    </span><br><span class="line">&#125;    </span><br><span class="line">return this;  </span><br><span class="line">&#125;  </span><br><span class="line">$emit(event) &#123;    </span><br><span class="line">  let cbs &#x3D; this._events[event];    </span><br><span class="line">  if (cbs) &#123;      </span><br><span class="line">    const args &#x3D; [].slice.call(arguments, 1);      </span><br><span class="line">    cbs.map(item &#x3D;&gt; &#123;        </span><br><span class="line">      args ? item.apply(this, args) : item.call(this);      </span><br><span class="line">&#125;);    </span><br><span class="line">&#125;    </span><br><span class="line">return this;  </span><br><span class="line">&#125;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="16-keep-alive-的实现原理和缓存策略"><a href="#16-keep-alive-的实现原理和缓存策略" class="headerlink" title="16.keep-alive 的实现原理和缓存策略"></a>16.keep-alive 的实现原理和缓存策略</h2><p>1.获取keep-alive第一个子组件；  </p>
+<p>2.根据include exclude名单进行匹配，决定是否缓存。如果不匹配，直接返回组件实例，如果匹配，到第3步；  </p>
+<p>3.根据组件id和tag生成缓存组件的key，再去判断cache中是否存在这个key，即是否命中缓存，如果命中，用缓存中的实例替代vnode实例，然后更新key在keys中的位置，(LRU置换策略)。如果没有命中，就缓存下来，如果超出缓存最大数量max,删除cache中的第一项。</p>
+<p>4.keep-alive是一个抽象组件：它自身不会渲染一个 DOM 元素，也不会出现在父组件链中；  </p>
+<p>5.LRU算法:根据数据的历史访问记录来进行淘汰数据，其实就是访问过的，以后访问概率会高；  </p>
+<p>6.LRU 实现:<br>  新数据插入到链表头部；<br>  每当缓存命中（即缓存数据被访问），则将数据移到链表头部；<br>  当链表满的时候，将链表尾部的数据丢弃。</p>
+<h1 id="17-Vue-的-set-原理"><a href="#17-Vue-的-set-原理" class="headerlink" title="17.Vue 的 set 原理"></a>17.Vue 的 set 原理</h1><p>1.由于 Object.observe()方法废弃了，所以Vue 无法检测到对象属性的添加或删除；  </p>
+<p>2.原理实现:<br>  判断是否是数组，是利用 splice 处理值；<br>  判断是否是对象的属性，直接赋值；<br>  不是数组，且不是对象属性，创建一个新属性，不是响应数据直接赋值，是响应数据调用defineReactive；<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">export function set (target: Array&lt;any&gt; | Object, key: any, val: any): any &#123;</span><br><span class="line">  &#x2F;&#x2F; 如果 set 函数的第一个参数是 undefined 或 null 或者是原始类型值，那么在非生产环境下会打印警告信息</span><br><span class="line">  &#x2F;&#x2F; 这个api本来就是给对象与数组使用的</span><br><span class="line">  if (process.env.NODE_ENV !&#x3D;&#x3D; &#39;production&#39; &amp;&amp;</span><br><span class="line">    (isUndef(target) || isPrimitive(target))</span><br><span class="line">  ) &#123;</span><br><span class="line">    warn(&#96;Cannot set reactive property on undefined, null, or primitive value: $&#123;(target: any)&#125;&#96;)</span><br><span class="line">  &#125;</span><br><span class="line">  if (Array.isArray(target) &amp;&amp; isValidArrayIndex(key)) &#123;</span><br><span class="line">    &#x2F;&#x2F; 类似$vm.set(vm.$data.arr, 0, 3)</span><br><span class="line">    &#x2F;&#x2F; 修改数组的长度, 避免索引&gt;数组长度导致splcie()执行有误</span><br><span class="line">    target.length &#x3D; Math.max(target.length, key)</span><br><span class="line">    &#x2F;&#x2F; 利用数组的splice变异方法触发响应式, 这个前面讲过</span><br><span class="line">    target.splice(key, 1, val)</span><br><span class="line">    return val</span><br><span class="line">  &#125;</span><br><span class="line">  &#x2F;&#x2F; target为对象, key在target或者target.prototype上。</span><br><span class="line">  &#x2F;&#x2F; 同时必须不能在 Object.prototype 上</span><br><span class="line">  &#x2F;&#x2F; 直接修改即可, 有兴趣可以看issue: https:&#x2F;&#x2F;github.com&#x2F;vuejs&#x2F;vue&#x2F;issues&#x2F;6845</span><br><span class="line">  if (key in target &amp;&amp; !(key in Object.prototype)) &#123;</span><br><span class="line">    target[key] &#x3D; val</span><br><span class="line">    return val</span><br><span class="line">  &#125;</span><br><span class="line">  &#x2F;&#x2F; 以上都不成立, 即开始给target创建一个全新的属性</span><br><span class="line">  &#x2F;&#x2F; 获取Observer实例</span><br><span class="line">  const ob &#x3D; (target: any).__ob__</span><br><span class="line">  &#x2F;&#x2F; Vue 实例对象拥有 _isVue 属性, 即不允许给Vue 实例对象添加属性</span><br><span class="line">  &#x2F;&#x2F; 也不允许Vue.set&#x2F;$set 函数为根数据对象(vm.$data)添加属性</span><br><span class="line">  if (target._isVue || (ob &amp;&amp; ob.vmCount)) &#123;</span><br><span class="line">    process.env.NODE_ENV !&#x3D;&#x3D; &#39;production&#39; &amp;&amp; warn(</span><br><span class="line">      &#39;Avoid adding reactive properties to a Vue instance or its root $data &#39; +</span><br><span class="line">      &#39;at runtime - declare it upfront in the data option.&#39;</span><br><span class="line">    )</span><br><span class="line">    return val</span><br><span class="line">  &#125;</span><br><span class="line">  &#x2F;&#x2F; target本身就不是响应式数据, 直接赋值</span><br><span class="line">  if (!ob) &#123;</span><br><span class="line">    target[key] &#x3D; val</span><br><span class="line">    return val</span><br><span class="line">  &#125;</span><br><span class="line">  &#x2F;&#x2F; 进行响应式处理</span><br><span class="line">  defineReactive(ob.value, key, val)</span><br><span class="line">  ob.dep.notify()</span><br><span class="line">  return val</span><br><span class="line">&#125;</span><br><span class="line">https:&#x2F;&#x2F;juejin.im&#x2F;post&#x2F;5e04411f6fb9a0166049a073#heading-18</span><br></pre></td></tr></table></figure></p>
+<h1 id="18-简写-Redux"><a href="#18-简写-Redux" class="headerlink" title="18.简写 Redux"></a>18.简写 Redux</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">function createStore(reducer) &#123;</span><br><span class="line">    let state;</span><br><span class="line">    let listeners&#x3D;[];</span><br><span class="line">    function getState() &#123;</span><br><span class="line">        return state;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function dispatch(action) &#123;</span><br><span class="line">        state&#x3D;reducer(state,action);</span><br><span class="line">        listeners.forEach(l&#x3D;&gt;l());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function subscribe(listener) &#123;</span><br><span class="line">        listeners.push(listener);</span><br><span class="line">        return function () &#123;</span><br><span class="line">            const index&#x3D;listeners.indexOf(listener);</span><br><span class="line">            listeners.splice(inddx,1);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    dispatch(&#123;&#125;);</span><br><span class="line">    </span><br><span class="line">    return &#123;</span><br><span class="line">        getState,</span><br><span class="line">        dispatch,</span><br><span class="line">        subscribe</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="19-react-redux是如何来实现的"><a href="#19-react-redux是如何来实现的" class="headerlink" title="19 react-redux是如何来实现的"></a>19 react-redux是如何来实现的</h1><p>源码组成:<br>1.connect 将store和dispatch分别映射成props属性对象，返回组件<br>2.context 上下文 导出Provider,,和 consumer<br>3.Provider 一个接受store的组件，通过context api传递给所有子组件</p>
+<h1 id="20-react16-的-fiber-理解"><a href="#20-react16-的-fiber-理解" class="headerlink" title="20. react16 的 fiber 理解"></a>20. react16 的 fiber 理解</h1><p>1.react 可以分为 differ 阶段和 commit(操作 dom)阶段；  </p>
+<p>2.v16 之前是向下递归算法，会阻塞；  </p>
+<p>3.v16 引入了代号为 fiber 的异步渲染架构；  </p>
+<p>4.fiber 核心实现了一个基于优先级和requestIdleCallback循环任务调度算法；  </p>
+<p>5.算法可以把任务拆分成小任务，可以随时终止和恢复任务，可以根据优先级不同控制执行顺序，<a href="https://www.cnblogs.com/zhuanzhuanfe/p/9567081.html" target="_blank" rel="noopener">更多请戳</a>；</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>原创码字不易，欢迎star！<br>您的鼓励是我持续创作的动力！</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag"># 框架</a>
+          
+            <a href="/tags/vue/" rel="tag"># vue</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/19/js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6%E6%A2%B3%E7%90%86/" rel="next" title="js运行机制">
+                <i class="fa fa-chevron-left"></i> js运行机制
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/assets/img/touxaing.jpg"
+                alt="GuanYm" />
+            
+              <p class="site-author-name" itemprop="name">GuanYm</p>
+              <p class="site-description motion-element" itemprop="description">前端开发一枚，不想秃头的麻鸡。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index-1.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#转载"><span class="nav-number">1.</span> <span class="nav-text">转载</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number"></span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Vue和React源码区别"><span class="nav-number"></span> <span class="nav-text">1.Vue和React源码区别</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-Vue源码"><span class="nav-number"></span> <span class="nav-text">1.1 Vue源码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-1-挂载"><span class="nav-number">1.</span> <span class="nav-text">1.1.1 挂载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-2-compile"><span class="nav-number">2.</span> <span class="nav-text">1.1.2 compile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-3-依赖收集与监听"><span class="nav-number">3.</span> <span class="nav-text">1.1.3 依赖收集与监听</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-4-diff-和-patch"><span class="nav-number">4.</span> <span class="nav-text">1.1.4 diff 和 patch</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-React-源码"><span class="nav-number"></span> <span class="nav-text">1.2 React 源码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-1-React-Component"><span class="nav-number">1.</span> <span class="nav-text">1.2.1 React.Component</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-2-挂载"><span class="nav-number">2.</span> <span class="nav-text">1.2.2 挂载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-3-组件类型和生命周期"><span class="nav-number">3.</span> <span class="nav-text">1.2.3 组件类型和生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-4-data-更新-setState"><span class="nav-number">4.</span> <span class="nav-text">1.2.4 data 更新 setState</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-5-数据绑定"><span class="nav-number">5.</span> <span class="nav-text">1.2.5 数据绑定</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-对比"><span class="nav-number"></span> <span class="nav-text">1.3 对比</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-React-和-Vue-渲染过程区别"><span class="nav-number"></span> <span class="nav-text">2.React 和 Vue 渲染过程区别</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-React"><span class="nav-number"></span> <span class="nav-text">2.1 React</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Vue"><span class="nav-number"></span> <span class="nav-text">2.2 Vue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-AST-和-VNode-的异同"><span class="nav-number"></span> <span class="nav-text">3.AST 和 VNode 的异同</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-React-和Vue-的-differ-算法区"><span class="nav-number"></span> <span class="nav-text">4.React 和Vue 的 differ 算法区</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-React"><span class="nav-number"></span> <span class="nav-text">4.1 React</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-Vue"><span class="nav-number"></span> <span class="nav-text">4.2 Vue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-对比"><span class="nav-number"></span> <span class="nav-text">4.3 对比</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-React-的-setState和-Vue-改变值的区别"><span class="nav-number"></span> <span class="nav-text">5.React 的 setState和 Vue 改变值的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-setState"><span class="nav-number"></span> <span class="nav-text">5.1 setState</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-Vue-的-this-改变"><span class="nav-number"></span> <span class="nav-text">5.2 Vue 的 this 改变</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-Vue的v-for-或-React-的map-中为什么不要用-index作为-key"><span class="nav-number"></span> <span class="nav-text">6. Vue的v-for 或  React 的map 中为什么不要用 index作为 key</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-为什么要加-key"><span class="nav-number"></span> <span class="nav-text">6.1 为什么要加 key</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-1-React"><span class="nav-number">1.</span> <span class="nav-text">6.1.1 React</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-2-Vue"><span class="nav-number">2.</span> <span class="nav-text">6.1.2 Vue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-为什么-key-不能为-index"><span class="nav-number">3.</span> <span class="nav-text">6.2 为什么 key 不能为 index</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-Redux和-Vuex-设计思想"><span class="nav-number"></span> <span class="nav-text">7. Redux和 Vuex 设计思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-Redux"><span class="nav-number"></span> <span class="nav-text">7.1 Redux</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-Vuex"><span class="nav-number"></span> <span class="nav-text">7.2 Vuex</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-3-对比"><span class="nav-number"></span> <span class="nav-text">7.3 对比</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-redux-为什么要把-reducer-设计成纯函数"><span class="nav-number"></span> <span class="nav-text">8.redux 为什么要把 reducer 设计成纯函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#9-Vuex的mutation和Redux的reducer中为什么不能做异步操作"><span class="nav-number"></span> <span class="nav-text">9.Vuex的mutation和Redux的reducer中为什么不能做异步操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#10-双向绑定和-vuex-是否冲突"><span class="nav-number"></span> <span class="nav-text">10.双向绑定和 vuex 是否冲突</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#11-Vue的nextTick原理"><span class="nav-number"></span> <span class="nav-text">11. Vue的nextTick原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#11-1-使用场景"><span class="nav-number"></span> <span class="nav-text">11.1 使用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-2-原理"><span class="nav-number"></span> <span class="nav-text">11.2 原理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#13-Vue-的data-必须是函数而-React-的-state-是对象"><span class="nav-number"></span> <span class="nav-text">13. Vue 的data 必须是函数而 React 的 state 是对象</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#13-1-Vue-的-data-必须是函数"><span class="nav-number"></span> <span class="nav-text">13.1 Vue 的 data 必须是函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13-2-React-的-state-是对象"><span class="nav-number"></span> <span class="nav-text">13.2 React 的 state 是对象</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#14-Vue-的合并策略"><span class="nav-number"></span> <span class="nav-text">14.Vue 的合并策略</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#14-Vue-router-的路由模式"><span class="nav-number"></span> <span class="nav-text">14.Vue-router 的路由模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#15-Vue-的事件机制"><span class="nav-number"></span> <span class="nav-text">15.Vue 的事件机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#16-keep-alive-的实现原理和缓存策略"><span class="nav-number"></span> <span class="nav-text">16.keep-alive 的实现原理和缓存策略</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#17-Vue-的-set-原理"><span class="nav-number"></span> <span class="nav-text">17.Vue 的 set 原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#18-简写-Redux"><span class="nav-number"></span> <span class="nav-text">18.简写 Redux</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#19-react-redux是如何来实现的"><span class="nav-number"></span> <span class="nav-text">19 react-redux是如何来实现的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#20-react16-的-fiber-理解"><span class="nav-number"></span> <span class="nav-text">20. react16 的 fiber 理解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number"></span> <span class="nav-text">总结</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">GuanYm</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="footer-custom"><a target="_blank" href="https://gglewo.github.com">Have a nice day</a></div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
